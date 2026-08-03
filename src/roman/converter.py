@@ -1,3 +1,5 @@
+import re
+
 class RomanError(ValueError):
     pass
 
@@ -98,12 +100,12 @@ def _count_char(text, ch):
 
 
 def is_valid_roman(s):
-    try:
-        from_roman(s)
-        return True
-    except RomanError:
+    if not s:
         return False
-
+        
+    # Standard strict regex pattern for Roman numerals
+    pattern = r"^M{0,3}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$"
+    return bool(re.match(pattern, s))
 
 def add_roman(a, b):
     return to_roman(from_roman(a) + from_roman(b))
